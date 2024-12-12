@@ -311,6 +311,10 @@ block::stmt::Ptr builder_context::extract_ast_from_function_impl(void) {
 		return ast;
 
 	block::basic_block::cfg_block BBs = generate_basic_blocks(block::to<block::stmt_block>(ast));
+	block::basic_block::cfg_block post_BBs = generate_basic_blocks(block::to<block::stmt_block>(ast));
+
+	block::dominator_analysis dom(BBs);
+	block::dominator_analysis post_dom(post_BBs, true);
 	
 	block::loop_finder finder;
 	finder.ast = ast;
